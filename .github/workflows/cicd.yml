@@ -15,7 +15,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     env:
-      USERNAME: ${{ secret.USERNAME }} 
+      USERNAME: ${{ secrets.USERNAME }} 
     runs-on: ubuntu-latest
     # The type of runner that the job will run on
     # Steps represent a sequence of tasks that will be executed as part of the job
