@@ -19,13 +19,12 @@ jobs:
       name : Development
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: "Read Secret Fields"
-        env:
-          username : ${{ secret.USERNAME }}
-          
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      - name: step-1
+        env:
+          username: "Suraj Sejwal"
+        run : echo Hello "$username"
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo "Hello, world! $username"
