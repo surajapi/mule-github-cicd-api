@@ -41,3 +41,34 @@ jobs:
           distribution: 'adopt'
       - name: Deploy Mule Application
         run: mvn package deploy -DmuleDeploy -Dusername=${USERNAME} -Dpassword=${PASSWORD} -DapplicationName=mule-github-cicd-api-dev
+  # Configuration detail for QA deployment
+  QA:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment: 
+      name: Staging
+    env:
+      USERNAME: ${{ secrets.USERNAME }} 
+      PASSWORD: ${{ secrets.PASSWORD }}
+    
+    # The type of runner that the job will run on
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps: 
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Build Mule Jar File
+        run: mvn clean package -DskipMunitTests
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+      - name: Deploy Mule Application
+        run: mvn package deploy -DmuleDeploy -Dusername=${USERNAME} -Dpassword=${PASSWORD} -DapplicationName=mule-github-cicd-api-qa
