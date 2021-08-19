@@ -31,4 +31,4 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Deploy Mule Application
-        run: mvn package deploy -DmuleDeploy -Dusername=${{USERNAME}} -Dpassword=${{PASSWORD}} -DapplicationName=mule-github-cicd-api-dev
+        run: mvn package deploy -DmuleDeploy -Dusername=suraj_aug -Dpassword=Suraj_aug1 -DapplicationName=mule-github-cicd-api-dev
