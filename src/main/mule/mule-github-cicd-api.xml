@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-"This is testing using github pipeline"]]></ee:set-payload>
+"This is testing using github cicd pipeline"]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="2836c5b7-f72f-44ae-aa89-7df5303a1de7" message="#[payload]"/>
