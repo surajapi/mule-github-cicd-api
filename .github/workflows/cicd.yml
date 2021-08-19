@@ -13,6 +13,7 @@ jobs:
   # This workflow contains a single job called "build"
   if: ${{ github.ref == 'refs/heads/develop' }}
   Dev:
+    if: $(github.ref === 'refs/heads/develop')
     runs-on: ubuntu-latest
     environment: 
       name: Development
