@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: GITHUB-CICD-TESTING
 
 # Controls when the workflow will run
 on:
@@ -8,35 +8,27 @@ on:
   push:
     branches: [ main, develop ]
   # Allows you to run this workflow manually from the Actions tab
-env: 
-  username: "Suraj Sejwal"
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   Dev:
-    
     runs-on: ubuntu-latest
     environment: 
       name: Development
     env:
       USERNAME: ${{ secrets.USERNAME }} 
+      PASSWORD: ${{ secrets.PASSWORD }}
     # The type of runner that the job will run on
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps: 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: read env variable
-        run : echo Hello "$USERNAME"
-  QA:
-    runs-on: ubuntu-latest
-    environment: 
-      name: Staging
-    env:
-      PASSWORD: ${{ secrets.PASSWORD }} 
-    # The type of runner that the job will run on
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps: 
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - name: read env variable
-        run : echo Hello "$PASSWORD"
+      - name: Build Mule Jar File
+        run: mvn build package -DskipMunitTests
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Deploy Mule Application
+        run: mvn package deploy -DmuleDeploy -Dusername=${{USERNAME}} -Dpassword=${{PASSWORD}} -DapplicationName=mule-github-cicd-api-dev
