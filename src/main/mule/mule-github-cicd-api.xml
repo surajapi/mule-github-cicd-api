@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ed3afb6a-de86-4c02-8386-9a5ecc41f6de" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="mule-github-cicd-apiFlow" doc:id="9c368d55-76bd-4cde-b8b2-4ab5ed8e9e6e" >
+		<http:listener doc:name="Listener" doc:id="7cd9294d-519a-4a05-9bd6-40d298febeb6" config-ref="HTTP_Listener_config" path="/githubcicd"/>
+		<ee:transform doc:name="Transform Message" doc:id="f596c5f5-dc96-400c-adf1-9947f7226ade" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"This is testing using github pipeline"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="2836c5b7-f72f-44ae-aa89-7df5303a1de7" message="#[payload]"/>
+	</flow>
+</mule>
